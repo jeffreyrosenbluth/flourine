@@ -8,7 +8,7 @@
 
 module Fluorine.Signal where
 
-import Control.Arrow
+import Control.Arrow hiding (loop)
 import Control.Category
 import Data.Profunctor
 import Prelude hiding (id, (.))
@@ -37,27 +37,28 @@ next (SF1 p) = snd p
 
 -- | Creates a stateful `SF1`
 stateful :: s -> (s -> i -> s) -> SF1 i s
-stateful s step = stateful' s (\s i -> let s' = step s i in (s', s')) `startingAt` s
+stateful s step = stateful' s (\t i -> let s' = step t i in (s', s')) `startingAt` s
 
 -- | Creates a stateful `SF` based on a function which returns an output value.
 stateful' :: s -> (s -> i -> (o, s)) -> SF i o
 stateful' s step = go s
   where
-  go s = SF $ \i ->
-    let (o, s') = step s i
+  go t = SF $ \i ->
+    let (o, s') = step t i
     in  SF1 (o, go s')
 
 -- | A `SF` which compares consecutive inputs using a helper function.
 differencesWith :: (i -> i -> d) -> i -> SF i d
-differencesWith f initial = stateful' initial $ \last next ->
-  let d = f last next
-  in (d, next)
+differencesWith f initial = stateful' initial $ \l n ->
+  let d = f l n
+  in (d, n)
 
 -- | Create a `SF` which hides a piece of internal state of type `s`.
-loop' :: s -> SF (s, i) (s, o) -> SF i o
-loop' s signal = SF $ \i ->
+--   XXX Should 'SF' be an instance of 'ArrowLoop' ?
+loop :: s -> SF (s, i) (s, o) -> SF i o
+loop s signal = SF $ \i ->
   let (SF1 p) = runSF signal (s, i)
-  in  SF1 (snd $ fst p, loop' (fst $ fst p) (snd p))
+  in  SF1 (snd $ fst p, loop (fst $ fst p) (snd p))
 
 -- | Merge two non-empty signals, outputting the latest value from both
 -- | signals at each step.
