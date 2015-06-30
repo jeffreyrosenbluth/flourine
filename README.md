@@ -1,1 +1,2 @@
-# A port of purescript-halogen to haskell
+# A port of purescript-halogen to haskell / GHCJS
+## Work In Progresss
