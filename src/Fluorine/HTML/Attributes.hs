@@ -117,41 +117,30 @@ finalizer :: i -> Attr i
 finalizer = Finalizer
 
 -- | A wrapper for strings which are used as CSS classes
-newtype ClassName = ClassName String
+newtype ClassName = ClassName {runClassName :: String}
 
 -- Create a class name
 className :: String -> ClassName
 className = ClassName
 
--- | Unpack a class name
-runClassName :: ClassName -> String
-runClassName (ClassName s) = s
 -- | A type-safe wrapper for attribute names
 --
 --   The phantom type `value` describes the type of value which this attribute requires.
-newtype AttributeName value = AttributeName String
+newtype AttributeName value = AttributeName {runAttributeName :: String}
 
 -- | Create an attribute name
 attributeName :: String -> AttributeName value
 attributeName = AttributeName
 
--- | Unpack an attribute name
-runAttributeName :: AttributeName value -> String
-runAttributeName (AttributeName s) = s
-
 -- | A type-safe wrapper for event names.
 --
 --   The phantom type `fields` describes the event type which we can expect to exist on events
 --   corresponding to this name.
-newtype EventName fields = EventName String
+newtype EventName fields = EventName {runEventName :: String}
 
 -- Create an event name
 eventName :: String -> EventName fields
 eventName = EventName
-
--- | Unpack an event name
-runEventName :: EventName fields -> String
-runEventName (EventName s) = s
 
 -- | This type class captures those types which can be used as attribute values.
 --

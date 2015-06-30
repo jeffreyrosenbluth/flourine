@@ -20,6 +20,7 @@ module Fluorine.HTML
   , TagName()
   , tagName
   , runTagName
+
   -- Elements
 
   , a             , a_
@@ -149,15 +150,11 @@ import           Prelude hiding (div, head, map, span)
 import qualified Fluorine.HTML.Attributes as A
 
 -- | A type-safe wrapper for a HTML tag name
-newtype TagName = TagName String
+newtype TagName = TagName {runTagName :: String}
 
 -- | Create a tag name
 tagName :: String -> TagName
 tagName = TagName
-
--- | Unwrap a `TagName` to get the tag name as a `String`.
-runTagName :: TagName -> String
-runTagName (TagName t) = t
 
 -- | An initial encoding of HTML nodes.
 data HTML i

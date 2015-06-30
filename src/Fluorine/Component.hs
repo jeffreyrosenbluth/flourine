@@ -42,7 +42,7 @@ type Component m req res = SF1 req (HTML (m res))
 
 -- | Map a natural transformation over the monad type argument of a `Component`.
 --
--- | This function may be useful during testing, to mock requests with a different monad.
+--   This function may be useful during testing, to mock requests with a different monad.
 hoistComponent :: (forall a. m a -> n a) -> Component m req res -> Component n req res
 hoistComponent f sf = (f <$>) <$> sf
 
