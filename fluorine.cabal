@@ -23,6 +23,7 @@ library
                        Fluorine.HTML
                        Fluorine.Component
                        Fluorine.HTML.Attributes
+                       Fluorine.HTML.Events
   other-modules:       Fluorine.HTML.Events.Types
                        Fluorine.HTML.Events.Handler
                        Fluorine.HTML.Events.Monad

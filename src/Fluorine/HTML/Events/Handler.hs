@@ -1,3 +1,5 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 -------------------------------------------------------------------------------
 -- |
 -- Module      :  Fluorine.Attributes
@@ -10,7 +12,12 @@
 ----------------------------------------------------------------------------
 
 module Fluorine.HTML.Events.Handler
-  ( EventHandler()
+  ( EventHandler
+
+  , preventDefault
+  , stopPropagation
+  , stopImmediatePropagation
+
   ) where
 
 import Control.Monad.Writer
@@ -32,3 +39,19 @@ data EventUpdate
 --
 --   H.a (E.onclick \_ -> E.preventDefault $> ClickHandler) (H.text "Click here")
 newtype EventHandler a = EventHandler (Writer [EventUpdate] a)
+  deriving (Functor, Applicative, Monad)
+
+unEventHandler :: EventHandler a -> Writer [EventUpdate] a
+unEventHandler (EventHandler mw) = mw
+
+-- | Call the `preventDefault` method on the current event
+preventDefault :: EventHandler ()
+preventDefault = EventHandler (tell [PreventDefault])
+
+-- | Call the `stopPropagation` method on the current event
+stopPropagation :: EventHandler ()
+stopPropagation = EventHandler (tell [StopPropagation])
+
+-- | Call the `stopImmediatePropagation` method on the current event
+stopImmediatePropagation :: EventHandler ()
+stopImmediatePropagation = EventHandler (tell [StopImmediatePropagation])
