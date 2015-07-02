@@ -73,7 +73,7 @@ input f e = pure (pure (f e))
 input_ :: Applicative m => i -> a -> EventHandler (m i)
 input_ x _ = pure (pure x)
 
-onAbort	:: (Event () -> EventHandler i) -> H.Attr i
+onAbort  :: (Event () -> EventHandler i) -> H.Attr i
 onAbort = H.handler (H.eventName "abort")
 
 onBeforeUnload :: (Event () -> EventHandler i) -> H.Attr i

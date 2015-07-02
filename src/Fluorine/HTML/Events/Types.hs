@@ -1,3 +1,5 @@
+{-# LANGUAGE EmptyDataDecls #-}  -- Remove with dummy defs.
+
 -------------------------------------------------------------------------------
 -- |
 -- Module      :  Fluorine.Attributes
@@ -12,6 +14,11 @@ module Fluorine.HTML.Events.Types where
 
 -- XXX import Data.DOM.Simple.Types
 
+-- XXX Dummy Definitions XXX --------------------------------------------------
+
+data HTMLElement
+-------------------------------------------------------------------------------
+
 -- | This record synonym captures the properties which appear on every DOM event.
 --
 --   The `fields` type parameter allows us to attach different types of additional
@@ -23,7 +30,7 @@ data Event f = Event
   , target :: String -- XXX HTMLElement
   , timeStamp :: Int
   , eType :: String
-  , fields :: [f] -- XXX this is a row type in purescript ?
+  , fields :: f -- XXX this is a row type in purescript ?
   }
 
 -- | Identifies the additional fields which are available on mouse events.
