@@ -26,8 +26,8 @@ data HTMLElement
 data Event f = Event
   { bubbles :: Bool
   , cancelable :: Bool
-  , currentTarget :: String -- XXX HTMLElement
-  , target :: String -- XXX HTMLElement
+  , currentTarget :: HTMLElement
+  , target :: HTMLElement
   , timeStamp :: Int
   , eType :: String
   , fields :: f -- XXX this is a row type in purescript ?
@@ -37,7 +37,7 @@ data Event f = Event
 data MouseEvent = MouseEvent
   { buttonM :: Int
   , detailM :: Int
-  , relatedTargetM :: String -- XXX HTMLElement
+  , relatedTargetM :: HTMLElement
   , clientXM :: Int
   , clientYM :: Int
   , screenXM  :: Int
@@ -62,5 +62,5 @@ data KeyboardEvent = KeyboardEvent
 
 -- | Identifies the additional fields which are available on focus events.
 data FocusEvent = FocusEvent
-  { relatedTargetF :: String -- XXX HTMLElement
+  { relatedTargetF :: HTMLElement
   }
